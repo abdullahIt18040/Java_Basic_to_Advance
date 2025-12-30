@@ -80,3 +80,52 @@ null key/value allowed না
 
 Map<Integer, String> map = new ConcurrentHashMap<>();
 ```
+## List-এর প্রধান Implementations
+
+List (interface)
+ |
+ |-- ArrayList
+ |-- LinkedList
+ |-- Vector (legacy)
+ |-- Stack (legacy)
+```
+3️⃣ ArrayList
+🔹 বৈশিষ্ট্য
+
+Dynamic array
+
+Fast read/access
+
+Slow insert/delete (middle)
+
+List<String> list = new ArrayList<>();
+list.add("Java");
+list.add("Spring");
+list.add("Java"); // duplicate allowed
+System.out.println(list.get(0)); // Java
+
+🔹 কখন ব্যবহার করবেন?
+
+✔ Read operation বেশি
+✔ Data size predictable না
+
+4️⃣ LinkedList
+🔹 বৈশিষ্ট্য
+
+Doubly linked list
+
+Fast insert/delete
+
+Slow search
+
+List<String> list = new LinkedList<>();
+list.add("A");
+list.add("B");
+list.add(1, "C");
+System.out.println(list);
+
+🔹 কখন ব্যবহার করবেন?
+
+✔ Frequent insert/delete
+✔ Less random access
+```
