@@ -7,79 +7,76 @@ Unique elements রাখে → একই element একবারই থাক�
 Ordered বা unordered হতে পারে, নির্ভর করে implementation-এর উপর।
 
 কিছু সাধারণ implementation:
-
-HashSet → unordered, hash-based
-
-LinkedHashSet → insertion order maintain করে
-
-TreeSet → sorted order (natural ordering বা Comparator)
-
-Set এর বৈশিষ্ট্য
-বৈশিষ্ট্য	বর্ণনা
-Unique	একই object duplicate হিসেবে থাকবে না
-Null	HashSet একটি null element রাখতে পারে
-Ordered	HashSet unordered, TreeSet sorted, LinkedHashSet insertion order ধরে রাখে
-Interface	Set interface, direct object তৈরি করা যায় না
-Set<String> set = new HashSet<>(); // ঠিক আছে
-
-২️⃣ HashSet কী?
-
-HashSet হলো Set interface-এর একটি class implementation।
-
-Hashing ব্যবহার করে element store করে → দ্রুত add, remove, contains কাজ করে।
-
-Unordered → insertion order maintain করে না।
-
-Null element নিতে পারে (একটি মাত্র null allowed)
-
-HashSet-এর বৈশিষ্ট্য
-বৈশিষ্ট্য	বর্ণনা
-Unique	একই value duplicate হবে না
-Performance	O(1) average time complexity add/remove/contains-এর জন্য
-Null allowed	শুধু একটি null allowed
-Unordered	Element insertion order maintain করে না
-৩️⃣ উদাহরণ: Set + HashSet
 ```
-import java.util.Set;
-import java.util.HashSet;
+Map Implementations (সবচেয়ে গুরুত্বপূর্ণ অংশ)
+🔹 1. HashMap
+বৈশিষ্ট্য
 
-public class SetExample {
-    public static void main(String[] args) {
-        Set<String> fruits = new HashSet<>();
+Fastest (O(1))
 
-        fruits.add("Apple");
-        fruits.add("Banana");
-        fruits.add("Orange");
-        fruits.add("Apple"); // duplicate → add হবে না
+Unordered
 
-        System.out.println(fruits); // Output: [Banana, Orange, Apple] (unordered)
-    }
-}
+1টি null key allowed
+
+Multiple null value allowed
+
+Thread-safe না
+
+Map<Integer, String> map = new HashMap<>();
+map.put(1, "Java");
+map.put(2, "Spring");
+map.put(null, "NullKey");
+
+
+📌 সবচেয়ে বেশি ব্যবহার হয়
+
+🔹 2. LinkedHashMap
+বৈশিষ্ট্য
+
+Insertion order maintain করে
+
+HashMap এর চেয়ে একটু slow
+
+1টি null key allowed
+
+Map<Integer, String> map = new LinkedHashMap<>();
+
+🔹 3. TreeMap
+বৈশিষ্ট্য
+
+Sorted order (ascending)
+
+null key allowed না
+
+Red-Black Tree ব্যবহার করে
+
+O(log n)
+
+Map<Integer, String> map = new TreeMap<>();
+
+🔹 4. Hashtable (Legacy)
+বৈশিষ্ট্য
+
+Thread-safe
+
+null key/value allowed না
+
+Slow
+
+Map<Integer, String> map = new Hashtable<>();
+
+
+❌ আজকাল ব্যবহার করা হয় না
+✅ ConcurrentHashMap ব্যবহার করা হয়
+
+🔹 5. ConcurrentHashMap
+বৈশিষ্ট্য
+
+Thread-safe
+
+High performance
+
+null key/value allowed না
+
+Map<Integer, String> map = new ConcurrentHashMap<>();
 ```
-
-Output (unordered, আপনার system অনুযায়ী order ভিন্ন হতে পারে):
-
-[Banana, Orange, Apple]
-
-৪️⃣ আপনার উদাহরণ
-Set<MyObject> set = new HashSet<>();
-
-
-এখানে set হলো Set interface type
-
-বাস্তবে object HashSet ব্যবহার করা হয়েছে → hash-based, unique objects
-
-যদি আপনার MyObject class-এ equals() এবং hashCode() override করা থাকে, duplicate objects automatic block হবে।
-```
-set.add(new MyObject(1, "Alice"));
-set.add(new MyObject(2, "Bob"));
-set.add(new MyObject(1, "Alice Duplicate")); // যদি equals/hashCode ঠিক থাকে → add হবে না
-
-```
-💡 সংক্ষেপে:
-
-Set → Interface, unique elements রাখে
-
-HashSet → Set-এর implementation, unordered, hash-based, duplicates block করে
-
-equals() + hashCode() ঠিক থাকলে HashSet দ্রুত এবং সঠিকভাবে duplicates handle করে
