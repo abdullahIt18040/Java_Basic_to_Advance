@@ -129,3 +129,51 @@ System.out.println(list);
 ✔ Frequent insert/delete
 ✔ Less random access
 ```
+## Queue-এর প্রধান Implementations
+
+```
+🔹 1️⃣ LinkedList (Queue হিসেবে)
+বৈশিষ্ট্য
+
+FIFO support করে
+
+Queue + Deque দুটোই implement করে
+
+Null element allow করে
+
+Queue<String> queue = new LinkedList<>();
+
+queue.offer("A");
+queue.offer("B");
+queue.offer("C");
+
+System.out.println(queue.poll()); // A
+System.out.println(queue.peek()); // B
+
+
+✔ Simple queue implementation
+✔ Widely used
+
+🔹 2️⃣ PriorityQueue
+বৈশিষ্ট্য
+
+FIFO না
+
+Priority অনুযায়ী element বের হয়
+
+Null element allow না
+
+Default: Min-Heap
+
+Queue<Integer> pq = new PriorityQueue<>();
+
+pq.offer(30);
+pq.offer(10);
+pq.offer(20);
+
+System.out.println(pq.poll()); // 10
+
+
+✔ Task scheduling
+✔ Priority based processing
+```
