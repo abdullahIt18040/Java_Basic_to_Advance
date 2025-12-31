@@ -122,3 +122,116 @@ equals() → একই bucket-এর ভিতরে object সত্যিই �
 
 উত্তর:
 যখন দুটি আলাদা object একই hash code তৈরি করে, তখন তাকে Hash Collision বলে।
+
+
+## What happens if two different objects have the same hash code?
+
+Hash code is just a number used by hash-based collections (HashMap, HashSet) to determine the bucket where an object should go.
+
+If two different objects produce the same hash code, this is called a hash collision.
+
+Java handles this automatically:
+
+It stores both objects in the same bucket.
+
+It uses equals() to check which object matches when retrieving.
+```
+✅ Important: Even if hash codes are the same, equals() ensures correctness.
+
+2️⃣ Example: Two different objects with same hashCode
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+class MyObject {
+    private int id;
+    private String name;
+
+    public MyObject(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        // Deliberately returning constant hash to simulate collision
+        return 100;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MyObject)) return false;
+        MyObject that = (MyObject) o;
+        return id == that.id && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public String toString() {
+        return "MyObject{id=" + id + ", name='" + name + "'}";
+    }
+}
+
+public class HashCollisionExample {
+    public static void main(String[] args) {
+        Set<MyObject> set = new HashSet<>();
+
+        MyObject o1 = new MyObject(1, "Alice");
+        MyObject o2 = new MyObject(2, "Bob");
+
+        set.add(o1);
+        set.add(o2);
+
+        System.out.println(set);
+    }
+}
+
+
+Output:
+
+[MyObject{id=1, name='Alice'}, MyObject{id=2, name='Bob'}]
+
+
+✅ Explanation:
+
+Both o1 and o2 have the same hash code (100) → hash collision occurs.
+
+HashSet internally places them in the same bucket.
+
+When adding, it uses equals() to check:
+
+o1.equals(o2) → false, so both objects are added.
+
+Retrieval still works correctly because equals differentiates them.
+```
+### Conceptual Diagram of a HashMap Bucket
+
+Imagine we have a HashSet<MyObject> and two objects o1 and o2 with the same hash code (100).
+```
+HashSet Internal Structure (simplified)
+
+Bucket[100]  →  o1
+               o2
+
+Explanation:
+
+Hashing:
+
+o1.hashCode() = 100 → Bucket 100
+
+o2.hashCode() = 100 → Bucket 100 (collision)
+
+Adding to HashSet:
+
+o1 added to bucket 100.
+
+o2 added → Java checks equals() with existing objects in the bucket.
+
+o2.equals(o1) → false → o2 also added.
+
+Retrieval:
+
+HashSet calculates hashCode() → goes to bucket 100.
+
+Then uses equals() to find the correct object.
+```
